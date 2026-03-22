@@ -7,17 +7,17 @@ const quotes = [
   { text: 'Единственное место, где успех приходит до труда — это словарь.', author: 'Винстон Черчилль' },
   { text: 'Не важно, насколько медленно ты движешься — главное, что ты не останавливаешься.', author: 'Конфуций' },
   { text: 'Дисциплина — это делать то, что нужно, даже когда не хочется.', author: 'Джоко Виллинк' },
-  { text: 'Твоё тело может значительно больше, чем то, что ты думаешь.', author: 'Дьюан Джонсон' },
+  { text: 'Твоё тело может значительно больше, чем ты думаешь.', author: 'Дьюан Джонсон' },
   { text: 'Успех — это сумма ежедневных усилий.', author: 'Игорь Стравинский' },
   { text: 'Хочешь измениться — начни с себя.', author: 'Махатма Ганди' },
   { text: 'Ты не устанешь, пока не победишь.', author: 'Арнольд Шварценеггер' },
   { text: 'Боль проходит. Гордость остаётся.', author: 'Фил Хитс (Navy SEAL)' },
   { text: 'Прогресс начинается там, где заканчивается зона комфорта.', author: 'Джон Максвелл' },
-  { text: 'Страх убивает больше мечтей, чем неудача.', author: 'Уйн Гретцки' },
+  { text: 'Страх убивает больше мечтей, чем неудача.', author: 'Уин Грецки' },
 ];
 
 const challenges = [
-  { id: 1, title: '30-дневная планка',       emoji: '🧘', days: 30, desc: 'Каждый день +5 сек. Началь с 60 сек.', color: 'border-blue-500/30 bg-blue-500/10' },
+  { id: 1, title: '30-дневная планка',       emoji: '🧘', days: 30, desc: 'Каждый день +5 сек. Начал с 60 сек.', color: 'border-blue-500/30 bg-blue-500/10' },
   { id: 2, title: '100 отжиманий в день',     emoji: '💪', days: 21, desc: 'Разбей на подходы по 10–25. Рост через 21 день.', color: 'border-orange-500/30 bg-orange-500/10' },
   { id: 3, title: 'Утром без телефона',       emoji: '🌅', days: 14, desc: 'Вставай на 30 мин раньше. Тренировка до завтрака.', color: 'border-yellow-500/30 bg-yellow-500/10' },
   { id: 4, title: '2 л воды в день',          emoji: '💧', days: 30, desc: 'Отслеживай в приложении. Почувствуй разницу.', color: 'border-cyan-500/30 bg-cyan-500/10' },
@@ -30,7 +30,7 @@ const legends = [
   { name: 'Рони Колеман', emoji: '🥇', fact: '5-кратный олимпийский чемпион. Тренировался 2 раза в день ещё в 60 лет.' },
   { name: 'Серена Уильямс', emoji: '🎾', fact: '23 титула БОЛЬШОГО Шлема. Чемпион, когда другие ещё рождались.' },
   { name: 'Майкл Джордан', emoji: '🍎', fact: 'Был отчислен из школьной команды. Ответил на это тысячами часов тренировок.' },
-  { name: 'Елена Исинбаева', emoji: '🥊', fact: 'Чемпионка мира по тяжёлой атлетике. Начала в  11 лет.' },
+  { name: 'Елена Исинбаева', emoji: '🤺', fact: 'Чемпионка мира по тяжёлой атлетике. Начала в  11 лет.' },
   { name: 'Усейн Болт', emoji: '⚡', fact: 'Самый быстрый человек в истории. 9.58 сек на 100м. Тренировался только 2 часа в день.' },
 ];
 
@@ -53,11 +53,10 @@ export default function Motivation() {
   };
 
   const getDone = (challengeId: number, total: number) =>
-    Array.from({ length: total }, (_, i) => progress[challengeId * 100 + i + 1] ? 1 : 0).reduce((a, b) => a + b, 0);
+    Array.from({ length: total }, (_, i) => progress[challengeId * 100 + i + 1] ? 1 : 0).reduce<number>((a, b) => a + b, 0);
 
   return (
     <div className="min-h-screen bg-dark-900 text-white">
-      {/* Hero */}
       <div className="relative bg-gradient-to-br from-dark-800 via-dark-900 to-dark-800 border-b border-white/5 py-14 px-4">
         <div className="absolute inset-0 opacity-5" style={{ backgroundImage: 'radial-gradient(circle at 20% 50%, #f97316 0%, transparent 50%), radial-gradient(circle at 80% 50%, #eab308 0%, transparent 50%)' }} />
         <div className="max-w-5xl mx-auto relative">
@@ -75,8 +74,6 @@ export default function Motivation() {
       </div>
 
       <div className="max-w-5xl mx-auto px-4 py-8 space-y-12">
-
-        {/* Quote of the day */}
         <section>
           <div className="flex items-center gap-2 mb-4">
             <Quote className="w-5 h-5 text-yellow-400" />
@@ -86,19 +83,13 @@ export default function Motivation() {
             <div className="text-6xl text-yellow-500/20 absolute top-4 left-6 font-serif leading-none">“</div>
             <p className="text-2xl font-medium text-white leading-relaxed relative z-10 mb-4">{q.text}</p>
             <p className="text-yellow-400 font-semibold">— {q.author}</p>
-            <button
-              onClick={nextQuote}
-              className="absolute bottom-4 right-4 p-2 text-gray-400 hover:text-yellow-400 transition-colors"
-              title="Следующая"
-            >
+            <button onClick={nextQuote} className="absolute bottom-4 right-4 p-2 text-gray-400 hover:text-yellow-400 transition-colors" title="Следующая">
               <RefreshCw className="w-5 h-5" />
             </button>
           </div>
           <div className="flex gap-1 justify-center mt-3">
             {quotes.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => setQuoteIdx(i)}
+              <button key={i} onClick={() => setQuoteIdx(i)}
                 className={`w-2 h-2 rounded-full transition-all ${
                   i === quoteIdx ? 'bg-yellow-400 w-4' : 'bg-white/20 hover:bg-white/40'
                 }`}
@@ -107,7 +98,6 @@ export default function Motivation() {
           </div>
         </section>
 
-        {/* Challenges */}
         <section>
           <div className="flex items-center gap-2 mb-4">
             <Target className="w-5 h-5 text-orange-400" />
@@ -118,8 +108,7 @@ export default function Motivation() {
               const done = getDone(ch.id, ch.days);
               const pct  = Math.round((done / ch.days) * 100);
               return (
-                <div
-                  key={ch.id}
+                <div key={ch.id}
                   className={`border rounded-2xl p-5 cursor-pointer transition-all hover:scale-[1.02] ${
                     activeChallenge === ch.id ? ch.color + ' ring-1 ring-white/20' : 'bg-dark-800 border-white/10 hover:border-white/20'
                   }`}
@@ -132,28 +121,18 @@ export default function Motivation() {
                   <h3 className="font-bold text-white mb-1">{ch.title}</h3>
                   <p className="text-xs text-gray-400 mb-3">{ch.desc}</p>
                   <div className="h-2 bg-dark-600 rounded-full overflow-hidden">
-                    <div
-                      className="h-full bg-gradient-to-r from-yellow-500 to-orange-500 rounded-full transition-all"
-                      style={{ width: `${pct}%` }}
-                    />
+                    <div className="h-full bg-gradient-to-r from-yellow-500 to-orange-500 rounded-full transition-all" style={{ width: `${pct}%` }} />
                   </div>
                   <p className="text-xs text-gray-400 mt-1">{done}/{ch.days} дней · {pct}%</p>
-
-                  {/* Day tracker */}
                   {activeChallenge === ch.id && (
                     <div className="mt-4 flex flex-wrap gap-1" onClick={(e) => e.stopPropagation()}>
                       {Array.from({ length: ch.days }, (_, i) => i + 1).map((day) => {
                         const isDone = !!progress[ch.id * 100 + day];
                         return (
-                          <button
-                            key={day}
-                            onClick={() => toggleDay(ch.id, day)}
+                          <button key={day} onClick={() => toggleDay(ch.id, day)}
                             className={`w-7 h-7 rounded text-xs font-medium transition-all ${
-                              isDone
-                                ? 'bg-green-500 text-white'
-                                : 'bg-dark-600 text-gray-400 hover:bg-dark-500'
-                            }`}
-                          >
+                              isDone ? 'bg-green-500 text-white' : 'bg-dark-600 text-gray-400 hover:bg-dark-500'
+                            }`}>
                             {day}
                           </button>
                         );
@@ -166,7 +145,6 @@ export default function Motivation() {
           </div>
         </section>
 
-        {/* Legends */}
         <section>
           <div className="flex items-center gap-2 mb-4">
             <Trophy className="w-5 h-5 text-yellow-400" />
@@ -185,7 +163,6 @@ export default function Motivation() {
           </div>
         </section>
 
-        {/* Motivational stats */}
         <section>
           <div className="flex items-center gap-2 mb-4">
             <Flame className="w-5 h-5 text-orange-400" />

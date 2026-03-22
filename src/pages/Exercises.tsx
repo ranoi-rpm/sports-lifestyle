@@ -1,12 +1,11 @@
 import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, Filter, Dumbbell, Zap, Target, ChevronRight, BarChart3 } from 'lucide-react';
+import { Search, Dumbbell, ChevronRight, BarChart3 } from 'lucide-react';
 import {
   exercises,
   muscleGroupLabels,
   equipmentLabels,
   difficultyLabels,
-  categoryLabels,
 } from '../data/exercises';
 import type { MuscleGroup, Equipment, Difficulty } from '../types/exercise';
 
@@ -38,8 +37,8 @@ export default function Exercises() {
         ex.name.toLowerCase().includes(q) ||
         ex.nameEn.toLowerCase().includes(q) ||
         ex.tags.some((t) => t.toLowerCase().includes(q));
-      const matchMuscle = !selectedMuscle || ex.primaryMuscle === selectedMuscle || ex.secondaryMuscles.includes(selectedMuscle);
-      const matchEquip = !selectedEquipment || ex.equipment.includes(selectedEquipment);
+      const matchMuscle = !selectedMuscle || ex.primaryMuscle === selectedMuscle || ex.secondaryMuscles.includes(selectedMuscle as MuscleGroup);
+      const matchEquip = !selectedEquipment || ex.equipment.includes(selectedEquipment as Equipment);
       const matchDiff = !selectedDifficulty || ex.difficulty === selectedDifficulty;
       return matchSearch && matchMuscle && matchEquip && matchDiff;
     });
@@ -62,7 +61,6 @@ export default function Exercises() {
 
   return (
     <div className="min-h-screen bg-dark-900 text-white">
-      {/* Hero */}
       <div className="relative bg-gradient-to-br from-dark-800 via-dark-900 to-dark-800 border-b border-white/5 py-16 px-4">
         <div className="absolute inset-0 opacity-5" style={{ backgroundImage: 'radial-gradient(circle at 20% 50%, #f97316 0%, transparent 50%), radial-gradient(circle at 80% 50%, #3b82f6 0%, transparent 50%)' }} />
         <div className="max-w-7xl mx-auto relative">
@@ -78,7 +76,6 @@ export default function Exercises() {
           <p className="text-gray-400 text-lg mb-8 max-w-2xl">
             {exercises.length}+ упражнений с подробным описанием техники, советами и видео
           </p>
-          {/* Stats row */}
           <div className="flex flex-wrap gap-3">
             {Object.entries(stats).slice(0, 7).map(([muscle, count]) => (
               <button
@@ -100,10 +97,8 @@ export default function Exercises() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 py-8">
-        {/* Filters */}
         <div className="bg-dark-800 border border-white/10 rounded-2xl p-5 mb-8">
           <div className="flex flex-wrap gap-4 items-end">
-            {/* Search */}
             <div className="flex-1 min-w-[240px]">
               <label className="text-xs text-gray-400 mb-1 block">Поиск</label>
               <div className="relative">
@@ -116,68 +111,49 @@ export default function Exercises() {
                 />
               </div>
             </div>
-            {/* Muscle */}
             <div className="min-w-[180px]">
               <label className="text-xs text-gray-400 mb-1 block">Мышца</label>
-              <select
-                value={selectedMuscle}
-                onChange={(e) => setSelectedMuscle(e.target.value as MuscleGroup | '')}
-                className="w-full bg-dark-700 border border-white/10 rounded-lg px-3 py-2.5 text-white focus:outline-none focus:border-primary-500"
-              >
+              <select value={selectedMuscle} onChange={(e) => setSelectedMuscle(e.target.value as MuscleGroup | '')}
+                className="w-full bg-dark-700 border border-white/10 rounded-lg px-3 py-2.5 text-white focus:outline-none focus:border-primary-500">
                 <option value="">Все мышцы</option>
                 {Object.entries(muscleGroupLabels).map(([k, v]) => (
                   <option key={k} value={k}>{v}</option>
                 ))}
               </select>
             </div>
-            {/* Equipment */}
             <div className="min-w-[180px]">
               <label className="text-xs text-gray-400 mb-1 block">Инвентарь</label>
-              <select
-                value={selectedEquipment}
-                onChange={(e) => setSelectedEquipment(e.target.value as Equipment | '')}
-                className="w-full bg-dark-700 border border-white/10 rounded-lg px-3 py-2.5 text-white focus:outline-none focus:border-primary-500"
-              >
+              <select value={selectedEquipment} onChange={(e) => setSelectedEquipment(e.target.value as Equipment | '')}
+                className="w-full bg-dark-700 border border-white/10 rounded-lg px-3 py-2.5 text-white focus:outline-none focus:border-primary-500">
                 <option value="">Любой</option>
                 {Object.entries(equipmentLabels).map(([k, v]) => (
                   <option key={k} value={k}>{v}</option>
                 ))}
               </select>
             </div>
-            {/* Difficulty */}
             <div className="min-w-[160px]">
               <label className="text-xs text-gray-400 mb-1 block">Уровень</label>
-              <select
-                value={selectedDifficulty}
-                onChange={(e) => setSelectedDifficulty(e.target.value as Difficulty | '')}
-                className="w-full bg-dark-700 border border-white/10 rounded-lg px-3 py-2.5 text-white focus:outline-none focus:border-primary-500"
-              >
+              <select value={selectedDifficulty} onChange={(e) => setSelectedDifficulty(e.target.value as Difficulty | '')}
+                className="w-full bg-dark-700 border border-white/10 rounded-lg px-3 py-2.5 text-white focus:outline-none focus:border-primary-500">
                 <option value="">Любой</option>
                 {Object.entries(difficultyLabels).map(([k, v]) => (
                   <option key={k} value={k}>{v}</option>
                 ))}
               </select>
             </div>
-            {/* View + Clear */}
             <div className="flex gap-2 ml-auto">
-              <button
-                onClick={() => setViewMode(viewMode === 'grid' ? 'list' : 'grid')}
-                className="p-2.5 bg-dark-700 border border-white/10 rounded-lg text-gray-400 hover:text-white transition-colors"
-                title="Переключить вид"
-              >
+              <button onClick={() => setViewMode(viewMode === 'grid' ? 'list' : 'grid')}
+                className="p-2.5 bg-dark-700 border border-white/10 rounded-lg text-gray-400 hover:text-white transition-colors">
                 <BarChart3 className="w-4 h-4" />
               </button>
               {(search || selectedMuscle || selectedEquipment || selectedDifficulty) && (
-                <button
-                  onClick={clearFilters}
-                  className="px-4 py-2.5 bg-red-500/20 text-red-400 border border-red-500/30 rounded-lg text-sm hover:bg-red-500/30 transition-colors"
-                >
+                <button onClick={clearFilters}
+                  className="px-4 py-2.5 bg-red-500/20 text-red-400 border border-red-500/30 rounded-lg text-sm hover:bg-red-500/30 transition-colors">
                   Сбросить
                 </button>
               )}
             </div>
           </div>
-          {/* Active filters */}
           {filtered.length !== exercises.length && (
             <p className="mt-3 text-sm text-gray-400">
               Найдено: <span className="text-primary-400 font-semibold">{filtered.length}</span> из {exercises.length}
@@ -185,7 +161,6 @@ export default function Exercises() {
           )}
         </div>
 
-        {/* Results */}
         {filtered.length === 0 ? (
           <div className="text-center py-24">
             <div className="text-6xl mb-4">🔍</div>
@@ -195,12 +170,8 @@ export default function Exercises() {
         ) : viewMode === 'grid' ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {filtered.map((ex) => (
-              <Link
-                key={ex.id}
-                to={`/exercises/${ex.slug}`}
-                className="group bg-dark-800 border border-white/10 rounded-2xl overflow-hidden hover:border-primary-500/50 hover:shadow-lg hover:shadow-primary-500/10 transition-all duration-300"
-              >
-                {/* Muscle color bar */}
+              <Link key={ex.id} to={`/exercises/${ex.slug}`}
+                className="group bg-dark-800 border border-white/10 rounded-2xl overflow-hidden hover:border-primary-500/50 hover:shadow-lg hover:shadow-primary-500/10 transition-all duration-300">
                 <div className="h-1.5 bg-gradient-to-r from-primary-500 to-accent-500" />
                 <div className="p-4">
                   <div className="flex items-start justify-between mb-3">
@@ -209,19 +180,13 @@ export default function Exercises() {
                       {difficultyLabels[ex.difficulty]}
                     </span>
                   </div>
-                  <h3 className="font-bold text-white mb-1 group-hover:text-primary-400 transition-colors line-clamp-2">
-                    {ex.name}
-                  </h3>
+                  <h3 className="font-bold text-white mb-1 group-hover:text-primary-400 transition-colors line-clamp-2">{ex.name}</h3>
                   <p className="text-xs text-gray-500 mb-3">{ex.nameEn}</p>
                   <p className="text-xs text-gray-400 line-clamp-2 mb-3">{ex.description}</p>
                   <div className="flex flex-wrap gap-1 mb-3">
-                    <span className="text-xs bg-dark-700 text-gray-300 px-2 py-0.5 rounded-full">
-                      {muscleGroupLabels[ex.primaryMuscle]}
-                    </span>
+                    <span className="text-xs bg-dark-700 text-gray-300 px-2 py-0.5 rounded-full">{muscleGroupLabels[ex.primaryMuscle]}</span>
                     {ex.equipment.slice(0, 2).map((eq) => (
-                      <span key={eq} className="text-xs bg-dark-700 text-gray-300 px-2 py-0.5 rounded-full">
-                        {equipmentLabels[eq]}
-                      </span>
+                      <span key={eq} className="text-xs bg-dark-700 text-gray-300 px-2 py-0.5 rounded-full">{equipmentLabels[eq]}</span>
                     ))}
                   </div>
                   <div className="flex items-center justify-between text-xs text-gray-500">
@@ -239,11 +204,8 @@ export default function Exercises() {
         ) : (
           <div className="space-y-2">
             {filtered.map((ex) => (
-              <Link
-                key={ex.id}
-                to={`/exercises/${ex.slug}`}
-                className="group flex items-center gap-4 bg-dark-800 border border-white/10 rounded-xl p-4 hover:border-primary-500/50 transition-all"
-              >
+              <Link key={ex.id} to={`/exercises/${ex.slug}`}
+                className="group flex items-center gap-4 bg-dark-800 border border-white/10 rounded-xl p-4 hover:border-primary-500/50 transition-all">
                 <span className="text-2xl">{muscleEmoji[ex.primaryMuscle]}</span>
                 <div className="flex-1 min-w-0">
                   <h3 className="font-semibold text-white group-hover:text-primary-400 transition-colors">{ex.name}</h3>

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Calculator, Droplets, Heart, Zap, Scale, ChevronDown } from 'lucide-react';
+import { Calculator } from 'lucide-react';
 
 type CalcTab = 'bmi' | 'calories' | 'macros' | 'water' | 'pulse';
 
@@ -11,7 +11,6 @@ const tabs: { id: CalcTab; label: string; icon: string; color: string }[] = [
   { id: 'pulse',    label: 'Пульс',     icon: '❤️',  color: 'text-red-400'    },
 ];
 
-/* ─── helpers ─── */
 function bmiCategory(bmi: number) {
   if (bmi < 18.5) return { label: 'Недостаточный вес', color: 'text-blue-400' };
   if (bmi < 25)   return { label: 'Норма',             color: 'text-green-400' };
@@ -32,7 +31,6 @@ const activityFactors = [
   { label: 'Очень высокая (2× в день / физтруд)',  value: 1.9   },
 ];
 
-/* ─── sub-components ─── */
 function InputRow({ label, value, onChange, unit, min, max, step = 1 }: {
   label: string; value: number; onChange: (v: number) => void;
   unit: string; min: number; max: number; step?: number;
@@ -67,7 +65,6 @@ function ResultCard({ label, value, sub, color = 'text-primary-400' }: {
   );
 }
 
-/* ─── BMI ─── */
 function BmiCalc() {
   const [weight, setWeight] = useState(80);
   const [height, setHeight] = useState(178);
@@ -97,7 +94,6 @@ function BmiCalc() {
   );
 }
 
-/* ─── Calories (Mifflin-St Jeor) ─── */
 function CaloriesCalc() {
   const [weight, setWeight]     = useState(80);
   const [height, setHeight]     = useState(178);
@@ -112,7 +108,6 @@ function CaloriesCalc() {
 
   return (
     <div className="space-y-6">
-      {/* sex toggle */}
       <div className="flex gap-2">
         {(['male', 'female'] as const).map((s) => (
           <button key={s} onClick={() => setSex(s)}
@@ -128,7 +123,6 @@ function CaloriesCalc() {
         <InputRow label="Рост"   value={height} onChange={setHeight} unit="см"  min={140} max={220} />
         <InputRow label="Возраст" value={age}   onChange={setAge}   unit="лет" min={14} max={80} />
       </div>
-      {/* activity */}
       <div>
         <label className="block text-sm text-gray-400 mb-1">Уровень активности</label>
         <select value={activity} onChange={(e) => setActivity(Number(e.target.value))}
@@ -138,7 +132,6 @@ function CaloriesCalc() {
           ))}
         </select>
       </div>
-      {/* goal */}
       <div className="flex gap-2">
         {([['bulk','💪 Масса'],['maintain','⚖️ Поддержание'],['cut','🔥 Сушка']] as const).map(([g, l]) => (
           <button key={g} onClick={() => setGoal(g)}
@@ -162,7 +155,6 @@ function CaloriesCalc() {
   );
 }
 
-/* ─── Macros ─── */
 function MacrosCalc() {
   const [calories, setCalories] = useState(2500);
   const [goal, setGoal] = useState<'bulk' | 'cut' | 'maintain'>('maintain');
@@ -195,7 +187,6 @@ function MacrosCalc() {
         <ResultCard label="Жиры"  value={`${fat} г`}     sub={`${Math.round(r.f * 100)}% ккал`} color="text-yellow-400" />
         <ResultCard label="Углеводы" value={`${carbs} г`} sub={`${Math.round(r.c * 100)}% ккал`} color="text-green-400" />
       </div>
-      {/* visual bar */}
       <div className="rounded-xl overflow-hidden h-5 flex">
         <div className="bg-blue-500"   style={{ width: `${r.p * 100}%` }} />
         <div className="bg-yellow-500" style={{ width: `${r.f * 100}%` }} />
@@ -210,15 +201,14 @@ function MacrosCalc() {
   );
 }
 
-/* ─── Water ─── */
 function WaterCalc() {
-  const [weight, setWeight]   = useState(80);
+  const [weight, setWeight]     = useState(80);
   const [activity, setActivity] = useState<'low' | 'medium' | 'high'>('medium');
   const [climate, setClimate]   = useState<'cold' | 'normal' | 'hot'>('normal');
 
-  const base = weight * 35;
-  const actAdd  = activity  === 'low' ? 0 : activity  === 'medium' ? 500 : 1000;
-  const climAdd = climate   === 'cold' ? -200 : climate === 'normal' ? 0 : 400;
+  const base    = weight * 35;
+  const actAdd  = activity === 'low' ? 0 : activity === 'medium' ? 500 : 1000;
+  const climAdd = climate  === 'cold' ? -200 : climate === 'normal' ? 0 : 400;
   const total   = Math.round((base + actAdd + climAdd) / 100) * 100;
   const glasses = Math.round(total / 250);
 
@@ -260,13 +250,12 @@ function WaterCalc() {
   );
 }
 
-/* ─── Pulse zones ─── */
 function PulseCalc() {
   const [age, setAge]       = useState(25);
   const [restHR, setRestHR] = useState(65);
 
   const maxHR = 220 - age;
-  const hrr   = maxHR - restHR; // Heart Rate Reserve (Karvonen)
+  const hrr   = maxHR - restHR;
 
   const zones = [
     { name: 'Восстановление',  pct: [50, 60],  color: 'bg-blue-500',   emoji: '😴' },
@@ -281,8 +270,8 @@ function PulseCalc() {
   return (
     <div className="space-y-6">
       <div className="space-y-4">
-        <InputRow label="Возраст"        value={age}    onChange={setAge}    unit="лет" min={14} max={80} />
-        <InputRow label="ЧСС в покое"   value={restHR} onChange={setRestHR} unit="уд/мин" min={40} max={100} />
+        <InputRow label="Возраст"      value={age}    onChange={setAge}    unit="лет"    min={14} max={80} />
+        <InputRow label="ЧСС в покое" value={restHR} onChange={setRestHR} unit="уд/мин" min={40} max={100} />
       </div>
       <div className="grid grid-cols-2 gap-3">
         <ResultCard label="Максимальный пульс" value={`${maxHR}`} sub="уд/мин" color="text-red-400" />
@@ -302,10 +291,7 @@ function PulseCalc() {
                   <span className="text-gray-400 font-mono">{lo}–{hi} уд/мин</span>
                 </div>
                 <div className="h-2 bg-dark-600 rounded-full overflow-hidden">
-                  <div
-                    className={`h-full ${z.color} rounded-full`}
-                    style={{ width: `${width * 2}%` }}
-                  />
+                  <div className={`h-full ${z.color} rounded-full`} style={{ width: `${width * 2}%` }} />
                 </div>
               </div>
               <span className="text-xs text-gray-500 w-14 text-right">{z.pct[0]}–{z.pct[1]}%</span>
@@ -320,7 +306,6 @@ function PulseCalc() {
   );
 }
 
-/* ─── Main page ─── */
 export default function Calculators() {
   const [active, setActive] = useState<CalcTab>('bmi');
 
@@ -334,12 +319,8 @@ export default function Calculators() {
 
   return (
     <div className="min-h-screen bg-dark-900 text-white">
-      {/* Hero */}
       <div className="relative bg-gradient-to-br from-dark-800 via-dark-900 to-dark-800 border-b border-white/5 py-14 px-4">
-        <div
-          className="absolute inset-0 opacity-5"
-          style={{ backgroundImage: 'radial-gradient(circle at 40% 50%, #f97316 0%, transparent 50%), radial-gradient(circle at 60% 50%, #06b6d4 0%, transparent 50%)' }}
-        />
+        <div className="absolute inset-0 opacity-5" style={{ backgroundImage: 'radial-gradient(circle at 40% 50%, #f97316 0%, transparent 50%), radial-gradient(circle at 60% 50%, #06b6d4 0%, transparent 50%)' }} />
         <div className="max-w-4xl mx-auto relative">
           <div className="flex items-center gap-3 mb-3">
             <div className="p-3 bg-primary-500/20 rounded-xl border border-primary-500/30">
@@ -353,27 +334,20 @@ export default function Calculators() {
           <p className="text-gray-400 text-lg">БМИ, калории, макросы, норма воды и пульсовые зоны</p>
         </div>
       </div>
-
       <div className="max-w-4xl mx-auto px-4 py-8">
-        {/* Tabs */}
-        <div className="flex gap-2 mb-8 overflow-x-auto pb-2 scrollbar-hide">
+        <div className="flex gap-2 mb-8 overflow-x-auto pb-2">
           {tabs.map((t) => (
-            <button
-              key={t.id}
-              onClick={() => setActive(t.id)}
+            <button key={t.id} onClick={() => setActive(t.id)}
               className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium whitespace-nowrap transition-all ${
                 active === t.id
                   ? 'bg-primary-500 text-white shadow-lg shadow-primary-500/30'
                   : 'bg-dark-800 border border-white/10 text-gray-400 hover:text-white hover:border-white/20'
-              }`}
-            >
+              }`}>
               <span>{t.icon}</span>
               <span>{t.label}</span>
             </button>
           ))}
         </div>
-
-        {/* Panel */}
         <div className="bg-dark-800 border border-white/10 rounded-2xl p-6">
           {panels[active]}
         </div>

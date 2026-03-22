@@ -12,7 +12,8 @@ export type MuscleGroup =
   | 'calves'
   | 'traps'
   | 'lats'
-  | 'cardio';
+  | 'cardio'
+  | 'hip flexors';
 
 export type Equipment =
   | 'barbell'
@@ -52,6 +53,6 @@ export interface Exercise {
   reps?: string;
   youtubeId?: string;
   rutubId?: string;
-  calories?: number; // per 10 min
+  calories?: number;
   tags: string[];
 }

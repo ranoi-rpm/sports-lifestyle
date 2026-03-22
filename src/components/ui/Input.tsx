@@ -78,7 +78,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>((
     </div>
   )
 })
-textarea.displayName = 'Textarea'
+Textarea.displayName = 'Textarea'
 
 // Select
 interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
