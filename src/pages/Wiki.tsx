@@ -6,7 +6,6 @@ import {
   wikiCategoryLabels,
   wikiCategoryEmoji,
   searchWiki,
-  getArticlesByCategory,
 } from '../data/wiki';
 import type { WikiCategory } from '../types/wiki';
 
@@ -35,7 +34,6 @@ export default function Wiki() {
 
   return (
     <div className="min-h-screen bg-dark-900 text-white">
-      {/* Hero */}
       <div className="relative bg-gradient-to-br from-dark-800 via-dark-900 to-dark-800 border-b border-white/5 py-16 px-4">
         <div
           className="absolute inset-0 opacity-5"
@@ -61,7 +59,6 @@ export default function Wiki() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 py-8">
-        {/* Search + filters */}
         <div className="bg-dark-800 border border-white/10 rounded-2xl p-5 mb-8">
           <div className="relative mb-4">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
@@ -106,7 +103,6 @@ export default function Wiki() {
           )}
         </div>
 
-        {/* Articles grid */}
         {filtered.length === 0 ? (
           <div className="text-center py-24">
             <div className="text-6xl mb-4">📖</div>

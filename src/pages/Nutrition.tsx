@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
-import { Search, Clock, Flame, Beef, Wheat, Droplet, ChevronRight, BookOpen } from 'lucide-react';
-import { allRecipes, topFoods, mealPlans, goalLabels, goalEmoji, categoryLabels, getRecipesByGoal } from '../data/nutrition';
-import type { DietGoal, MealCategory } from '../types/nutrition';
+import { Search, Clock, Flame, Beef, ChevronRight } from 'lucide-react';
+import { allRecipes, topFoods, mealPlans, goalLabels, goalEmoji, categoryLabels } from '../data/nutrition';
+import type { DietGoal } from '../types/nutrition';
 
 type Tab = 'recipes' | 'foods' | 'plans';
 
@@ -79,7 +79,6 @@ function RecipeModal({ recipe, onClose }: { recipe: (typeof allRecipes)[0]; onCl
           </div>
           <button onClick={onClose} className="text-gray-400 hover:text-white text-xl leading-none">×</button>
         </div>
-        {/* macros */}
         <div className="grid grid-cols-4 gap-2 mb-5">
           {[
             { l: 'Ккал', v: recipe.macros.calories, c: 'text-orange-400' },
@@ -93,7 +92,6 @@ function RecipeModal({ recipe, onClose }: { recipe: (typeof allRecipes)[0]; onCl
             </div>
           ))}
         </div>
-        {/* ingredients */}
         <h3 className="font-bold mb-2">Ингредиенты</h3>
         <ul className="space-y-1 mb-4">
           {recipe.ingredients.map((ing, i) => (
@@ -102,7 +100,6 @@ function RecipeModal({ recipe, onClose }: { recipe: (typeof allRecipes)[0]; onCl
             </li>
           ))}
         </ul>
-        {/* steps */}
         <h3 className="font-bold mb-2">Приготовление</h3>
         <ol className="space-y-2 mb-4">
           {recipe.steps.map((step, i) => (
@@ -112,7 +109,6 @@ function RecipeModal({ recipe, onClose }: { recipe: (typeof allRecipes)[0]; onCl
             </li>
           ))}
         </ol>
-        {/* tips */}
         {recipe.tips.length > 0 && (
           <>
             <h3 className="font-bold mb-2">💡 Советы</h3>
@@ -148,7 +144,6 @@ export default function Nutrition() {
 
   return (
     <div className="min-h-screen bg-dark-900 text-white">
-      {/* Hero */}
       <div className="relative bg-gradient-to-br from-dark-800 via-dark-900 to-dark-800 border-b border-white/5 py-14 px-4">
         <div className="absolute inset-0 opacity-5" style={{ backgroundImage: 'radial-gradient(circle at 30% 50%, #22c55e 0%, transparent 50%), radial-gradient(circle at 70% 50%, #f97316 0%, transparent 50%)' }} />
         <div className="max-w-7xl mx-auto relative">
@@ -166,22 +161,19 @@ export default function Nutrition() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 py-8">
-        {/* Tabs */}
         <div className="flex gap-2 mb-8">
           {([['recipes','🍽️ Рецепты'],['foods','🥦 Продукты'],['plans','📊 Планы']] as [Tab, string][]).map(([t, l]) => (
-          <button key={t} onClick={() => setTab(t)}
-            className={`px-5 py-2.5 rounded-xl text-sm font-medium transition-all ${
-              tab === t ? 'bg-green-500 text-white shadow-lg shadow-green-500/30' : 'bg-dark-800 border border-white/10 text-gray-400 hover:text-white'
-            }`}>
-            {l}
-          </button>
-        ))}
+            <button key={t} onClick={() => setTab(t)}
+              className={`px-5 py-2.5 rounded-xl text-sm font-medium transition-all ${
+                tab === t ? 'bg-green-500 text-white shadow-lg shadow-green-500/30' : 'bg-dark-800 border border-white/10 text-gray-400 hover:text-white'
+              }`}>
+              {l}
+            </button>
+          ))}
         </div>
 
-        {/* RECIPES TAB */}
         {tab === 'recipes' && (
           <>
-            {/* filters */}
             <div className="bg-dark-800 border border-white/10 rounded-2xl p-5 mb-8 flex flex-wrap gap-4 items-end">
               <div className="flex-1 min-w-[200px]">
                 <div className="relative">
@@ -214,7 +206,6 @@ export default function Nutrition() {
           </>
         )}
 
-        {/* FOODS TAB */}
         {tab === 'foods' && (
           <div className="space-y-2">
             <div className="grid grid-cols-6 gap-2 px-4 text-xs text-gray-500 mb-2">
@@ -240,7 +231,6 @@ export default function Nutrition() {
           </div>
         )}
 
-        {/* PLANS TAB */}
         {tab === 'plans' && (
           <div className="grid lg:grid-cols-2 gap-6">
             {mealPlans.map((plan) => (
@@ -281,7 +271,6 @@ export default function Nutrition() {
         )}
       </div>
 
-      {/* Recipe modal */}
       {selected && <RecipeModal recipe={selected} onClose={() => setSelected(null)} />}
     </div>
   );

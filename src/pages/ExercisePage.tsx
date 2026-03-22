@@ -1,5 +1,5 @@
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, Dumbbell, Target, AlertCircle, Lightbulb, Play, Clock, Flame, ChevronRight } from 'lucide-react';
+import { ArrowLeft, Target, AlertCircle, Lightbulb, Play, ChevronRight } from 'lucide-react';
 import { exercises, muscleGroupLabels, equipmentLabels, difficultyLabels, categoryLabels } from '../data/exercises';
 
 const difficultyColor: Record<string, string> = {
