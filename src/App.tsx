@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router-dom'
+import { useSEO } from './hooks/useSEO'
 import Layout from '@/components/Layout/Layout'
 import Home from '@/pages/Home'
 import Exercises from '@/pages/Exercises'
@@ -14,6 +15,12 @@ import Community from '@/pages/Community'
 import NotFound from '@/pages/NotFound'
 
 export default function App() {
+  useSEO({
+    title: 'Спортивный портал',
+    description: 'База упражнений, вики, питание, калькуляторы и сообщество для спортсменов',
+    keywords: 'фитнес, спорт, упражнения, питание, бодибилдинг, здоровье',
+  })
+
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
